@@ -15,6 +15,13 @@ a {
     text-decoration: underline;
 }
 
+.announcement {
+  padding: 5px;
+  text-align: center;
+  background: red;
+
+}
+
 .header {
   padding: 30px;
   font-size: 20px;
@@ -29,5 +36,4 @@ a {
 }
 .bottom {
   text-align: center;
-  bottom: auto;
 }
