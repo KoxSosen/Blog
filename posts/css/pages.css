@@ -13,7 +13,6 @@ a {
     color: yellowgreen;
     text-decoration: underline;
 }
-
 .linkback {
     padding: 5px;
     font-size: 15px;
@@ -34,6 +33,7 @@ a {
     text-align: center;
     padding-bottom: 5px;
 }
+
 .content {
   text-align: left;
   padding-right: 15px;
@@ -42,11 +42,6 @@ a {
   font-size: 20px;
   margin-bottom: 5px;
 }
-
-c {
-    text-decoration: underline;
-}
-
 
 .postsbottom {
   text-align: center;
