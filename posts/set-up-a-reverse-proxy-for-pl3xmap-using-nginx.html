@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+        
+		<!-- Describe the post, used for search engines. -->
+        <meta name="description" content="Set up a Reverse Proxy for Pl3xMap using Nginx.">
+
+        <!-- Add the keywords here for SEO -->
+        <meta name="keywords" content="pl3xmap, reverse proxy, nginx, minecraft map"> 
+        
+        <!-- Credit yourself -->
+        <meta name="author" content="KoxSosen">
+    <link rel="stylesheet" href="./css/pages.css">
+    <!-- Post title -->
+    <title>Set up a Reverse Proxy for Pl3xMap using Nginx.</title>
+</head>
+	<body>
+		<div class="linkback">
+			<p><a href="../index.html"><-- Back to the main page.</a> 🐱</p>
+		</div>
+		<!-- Post page header, an image as a background maybe? -->
+		<div class="postheader">
+  			<h1>Set up a Reverse Proxy for Pl3xMap using Nginx.</h1>
+  			<p>👋 Welcome back to my little corner on the Internet.</p>
+		</div>
+		<div class="tags">
+			<p>2021.09.08 | <a href="https://github.com/KoxSosen/">KoxSosen</a></p>
+		</div>
+		<!-- Content stuff. <pre></pre> must no have tabs or spaces before. --> 
+		<div class="content">
+<pre>
+Today we are going to learn how to set up a Reverse Proxy for Pl3xMap using Nginx. It's very easy :p
+
+First of all, let's decide if you really need a Reverse Proxy. Pl3xMap already has a great guide for Nginx if you are planning on serving the Pl3xMap website directly. 
+You can find that <a href="https://github.com/pl3xgaming/Pl3xMap/wiki/Internal-vs-External-Web-Server">here</a>.
+
+This guide is for those, who can't really directly serve the Pl3xMap website files from the web server, such as if you are running your server using a shared host, or in Pterodactyl, or you have other limitations.
+
+Let's get to work! You'll need:
+<!-- This isn't great, random hole at the end -->
+<ul>
+<li>A Linux based operating system, which uses the apt package manager.</li>
+<li>A user with sudo, or root access to the operating system.</li>
+<li>Pl3xMap installed to your backend server.</li></ul>
+
+<h3>1. Enable the inbuilt Pl3xMap web server.</h3>
+Navigate to the <span class="highlight">config.yml</span> file, which can be found in <span class="highlight">/path/to/server/plugins/Pl3xMap/</span>. Set  the enabled: option to true under internal-webserver:.
+
+<div class="warning">⚠️ Warning: Exposing the website backend directly to the internet, without ssl is a security risk. If you have the option to use a local address use that. ( like localhost, 127.0.0.1, or the containers private IP if using docker )</div>
+
+<h3>2. Install Nginx.</h3>
+Let's install Nginx. Run the commands from the official Nginx site:
+
+<span class="command">sudo apt install curl gnupg2 ca-certificates lsb-release debian-archive-keyring && \
+curl https://nginx.org/keys/nginx_signing.key | gpg --dearmor \
+    | sudo tee /usr/share/keyrings/nginx-archive-keyring.gpg >/dev/null && \
+    gpg --dry-run --quiet --import --import-options import-show /usr/share/keyrings/nginx-archive-keyring.gpg</span>
+<span class="command">echo "deb [signed-by=/usr/share/keyrings/nginx-archive-keyring.gpg] \
+http://nginx.org/packages/debian `lsb_release -cs` nginx" \
+    | sudo tee /etc/apt/sources.list.d/nginx.list && \
+	sudo apt update && sudo apt install nginx</span>
+
+<h3>3. Configure Nginx. </h3>
+The Nginx configuration directory in Debian based systems in most cases is /etc/nginx/.
+
+Play close attention to the nginx.conf, and other configuration files. Adjust values to your liking. mikroskeem already has a great config repository which you can find here.
+
+<h3>4. Open the web server ports.</h3>
+Make sure that port 80 ( for forwarding traffic to 443 ), and port 443 (for ssl) is open for in and out traffic.
+
+<h3>5. Set up a Reverse Proxy.</h3>
+The important step, why we're all here. First of all, let's crate a virtual host:
+
+<span class="command">sudo nano /etc/nginx/sites-avaliable/YOUR_DOMAIN</span>
+
+Replace the <your preferred editor> block with whatever editor you use. nano is easy to beginners, vim or nvim is very handy. Same with the <your-domain> block. An example of this command goes as follows:
+
+<span class="command">sudo nano /etc/nginx/sites-avaliable/map.hahota.net</span>
+
+You just created a virtual host! Great! Time to add the reverse proxy config. Feel free to copy & paste:
+
+<div class="codeblock">server {
+        listen 80; # Listen on port 80. 
+        server_name map.your.domain; # REPLACE with your domain
+
+        location / {
+                proxy_pass http://127.0.0.1; # REPLACE with the the ip you configured in pl3xmap.
+        }
+}</div>
+Save and exit. If using `nano` press Ctrl+o, and Ctrl+x, if using vim type :x, or ZZ. If you want to get familiar with vim give vimtutor a go.
+
+<h3>6. Enable the site.</h3>
+Now we are going to set up a symlink to activate the site:
+
+<span class="command">sudo ln -s /etc/nginx/sites-available/map.your.domain /etc/nginx/sites-enabled/</span>
+
+Make sure to replace the map.your.domain block with your domain. This step symlinks the virtual host config file to the enabled sites directory, activating the site.
+
+<h3>7. Setup a DNS (Domain Name System) record.</h3>
+We're getting close! Navigate to your registrars site, and log in. If you haven't gotten a domain yet, I'd recommend using Porkbun.
+
+Find the option to manage DNS. Add a new A record, like so:
+
+Make sure to replace the name with your preferred record name, and the IPv4 address with your servers public IPv4 address. Click add, and wait for it to propagate.
+
+🎉 Enter the subdomain in your browser, and you should see the map!
+
+Wait! Don't close this yet! You haven't configured SSL!
+
+<h3>8. Set up SSL.</h3>
+There are multiple ways you can obtain an SSL certificate for free. One of them is certbot.
+
+Install certbot:
+
+<span class="command">sudo apt get update && sudo apt install python3-certbot-nginx</span>
+
+Obtain the certificate:
+
+<span class="command">sudo certbot --nginx -d your_domain</span>
+
+Make sure to replace the your_domain block with your domain, and choose the option to redirect http traffic to https.
+
+<div class="warning">⚠️ Warning: If you are using Cloudflare, and you have the Cloudflare proxy enabled, please see this guide.</div>
+<h3>9. Enjoy!</h3>
+Navigate to https://map.your.domain/, and enjoy your new map! 😄
+
+Closing thoughts:
+Thank you for reading my article! If you have any questions, or you found something about this article that is worth mentioning, feel free to add me on Discord at Simon.#4921. Have a nice day!
+</pre>
+		</div>
+              <div class="postsbottom">
+                     <p>Copyright (C) KoxSosen</p>
+                     <p>The content on this page is licensed under the <a href="https://www.gnu.org/licenses/agpl-3.0.en.html">GNU AGPL v3 license</a>.</p>
+                     <p>Find us on <a href="https://github.com/KoxSosen/Blog">GitHub</a>.</p>
+              </div>
+	</body>
+</html>

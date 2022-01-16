@@ -21,13 +21,6 @@ pre {
   word-break: break-all;
 }
 
-/* Custom warning box, I hope this isn't CSS abuse lol */
-.warning {
-    padding: 10px;
-    border-radius: 15px;
-    background-color: #cca300;
-}
-
 .linkback {
     padding: 5px;
     font-size: 15px;
@@ -56,6 +49,38 @@ pre {
   padding-bottom: 5px;
   font-size: 20px;
   margin-bottom: 5px;
+}
+
+
+/* Custom warning box, I hope this isn't CSS abuse lol */
+.warning {
+    padding: 10px;
+    border-radius: 15px;
+    background-color: #cca300;
+    display: table; /* Not the cleanest solution, but it works I guess */
+}
+
+/* Similar to the prior. */
+.codeblock {
+        color: darkseagreen;
+        background-color: black;
+        display: table;
+        border-radius: 15px;
+        padding: 10px;
+}
+
+.highlight {
+    background-color: lightslategrey;
+    border-radius: 5px;
+    display: inline;
+    padding: 10px;
+}
+
+.command {
+    background-color: black;
+    border-radius: 5px;
+    display: table;
+    padding: 10px;
 }
 
 .postsbottom {
