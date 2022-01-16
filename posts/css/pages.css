@@ -9,10 +9,25 @@ body {
         font-family: Monospace;
 }
 
+/* Links & stuff */
 a {
     color: yellowgreen;
     text-decoration: underline;
 }
+
+/* These changes are nececarry to make <pre></pre> tags responsive, since all content is there. */
+pre {
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+/* Custom warning box, I hope this isn't CSS abuse lol */
+.warning {
+    padding: 10px;
+    border-radius: 15px;
+    background-color: #cca300;
+}
+
 .linkback {
     padding: 5px;
     font-size: 15px;
