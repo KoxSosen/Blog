@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+        
+		<!-- Describe the post, used for search engines. -->
+        <meta name="description" content="Set up a Team Fortress 2 server using Docker.">
+
+        <!-- Add the keywords here for SEO -->
+        <meta name="keywords" content="team fortress 2, tf2 server, docker tf2 server, docker, tf2, docker tf2 image, blog, hahota.net"> 
+        
+        <!-- Credit yourself -->
+        <meta name="author" content="KoxSosen">
+    <link rel="stylesheet" href="./css/pages.css">
+    <!-- Post title -->
+    <title>Set up a Team Fortress 2 server using Docker.</title>
+</head>
+	<body>
+		<div class="linkback">
+			<p><a href="../index.html"><-- Back to the main page.</a> 🐱</p>
+		</div>
+		<!-- Post page header, an image as a background maybe? -->
+		<div class="postheader">
+  			<h1>Set up a Team Fortress 2 server using Docker.</h1>
+  			<p>👋 Hello! Today, we are going to learn how to install, and start your own Team Fortress 2 server using Docker. This guide also includes options to install sourcemod, and metamod. Let's not waste any more time! :p</p>
+		</div>
+		<div class="tags">
+			<p>2021.09.12 | <a href="https://github.com/KoxSosen/">KoxSosen</a></p>
+		</div>
+		<!-- Content stuff. <pre></pre> must no have tabs or spaces before. --> 
+		<div class="content">
+<pre>
+This guide assumes:
+
+<ul>
+<li>You know the basics of Docker.</li>
+<li>You know what Team Fortress 2 is.</li>
+<li>You have a Linux machine capable of running containers.</li></ul>
+
+<h3>1. Install Docker.</h3>
+Let's install docker. Follow the article linked below. 😄
+
+<a href="https://docs.docker.com/engine/install/">Install Docker Engine</a>
+
+<h3>2. Introducing: cm2network TF2 image.</h3>
+To start a container, you'll have to provide an image. Of course you can make your own, however in this guide we'll use an unofficial, community built image from cm2network. You can find the git hub repository <a href="https://github.com/CM2Walki/TF2">here</a>. Execute the following command to pull the image:
+
+<span class="command">sudo docker pull cm2network/tf2</span>
+
+Optionally you can add the <span class="highlight">sourcemod</span> and the <span class="highlight">metadmod</span> image tags after <span class="highlight">tf2</span>.
+
+<ul>
+<li><span class="highlight">sourcemod</span> will pull an image with <a href="https://www.sourcemod.net/">sourcemod</a>.</li>
+<li><span class="highlight">metamod</span> will pull an image with <a href="http://www.metamodsource.net/">metamod</a>.</li></ul>
+
+An example of this command goes as follows:
+
+<span class="command">sudo docker pull cm2network/tf2:sourcemod</span>
+
+<h3>3. Create a named volume.</h3>
+As we all know, containers without a bind mount only persist data in an overlay, using the overlay storage driver. However, the TF2 game server constantly updates data, so we should store our data using a bind mount, or a named volume. In this step, we'll create a named volume, to store our serbur files on. You can read more about docker volume management here. Run the following command:
+
+<span class="command">sudo docker volume create volume_name</span>
+
+Make sure to replace volume_name with your preferred volume name. It can be anything you wish. This volume name is important for the next step.
+
+<span class="warning">⚠️ Warning: The Team Fortress 2 server is around 8GB in file size, and can be more if you add maps, plugins, mods and scripts. Manage storage space accordingly.</span>
+
+<h3>4. Start the server.</h3>
+The most important, and probably the hardest step. Let's actually "make" the container, and get the serbur running! Don't worry, it's not too complicated:
+
+Let's cook up a command using the docker syntax:
+
+<span class="codeblock">sudo docker run -d --name=tf2 \ 
+-p 27015:27015 \
+-p 27015:27015/udp \
+-v volume_name:/home/steam/tf-dedicated/ \
+-e SRCDS_TOKEN="" \
+-e SRCDS_PW="changeme" cm2network/tf2:sourcemod</span>
+
+Where:
+
+<ul>
+<li><span class="highlight">-d</span> - Starts the container in a De-attached mode.</li>
+<li><span class="highlight">--name=tf2</span> - Names the container, so you can use it instead of the Container Id.</li>
+<li><span class="highlight">-p 27015:2715</span> - Exposes the port 27015 on the host machine, on 0.0.0.0 which points to all addresses and interfaces. You might want to change that to something, e.g your public ipv4 address.</li>
+<li><span class="highlight">-p 27015:27015/udp</span> - Is the duplicate of this, just with the UDP protocol; The Docker -p command allocates the TCP protocol by default.</li>
+<li><span class="highlight">-v volume_name:/home/steam/tf-dedicated/</span> - Here is where we define where the container should store the server files, by using the named volume we created earlier. Make sure to replace the volume_name block with the name you used to create the named volume.</li>
+<li><span class="highlight">-e SRCDS_TOKEN=""</span> - Is an environment variable. You can read more about the environment variables here. This is required to be listed & reachable. You can get your token here.</li>
+<li><span class="highlight">-e SRCDS_PW="changeme"</span> - The same applies to this environment variable, except that this isn't required, and certainly shouldn't be listed if you are making a private server. Just set it to empty if you wouldn't like to set a password.</li>
+<li><span class="highlight">cm2network/tf2:sourcemod</span> - Defines the image we pulled earlier. Don't worry. If you haven't pulled an image, this will automatically pull it from Docker Hub if it can't find it locally.</li>
+</ul>
+
+Port 27015 is the default port used by Team Fortress 2 servers. Feel free to change it, however in this case you'll have to add the port at the end of the IP when connecting, or you'll have to use an SRV record if using a DNS record.
+
+<span class="warning">⚠️ Warning: It is recommended to use the host interface if hosting a lot of Team Fortress 2 game servers because of it's more bandwidth efficient than containers using the docker bridge. You can do that by passing the --network=host option to the command, and removing the -p ... option(s).</span>
+
+🗒️ Note: If you are an advanced user, and you need STDIN, or a TTY session for automation, or something else, consider passing the -it option.
+
+<h3>5. Connect to the server.</h3>
+Time to connect to your server! Launch the game, open console, and type:
+
+<span class="command">connect publivipv4ofyourserbur; password password</span>
+
+You should be able to connect. Don't specify a password if you haven't set one.
+
+<span class="warning">⚠️ Warning: If you are unable to connect, verify that your <span class="highlight">SRCDS_TOKEN</span> is valid, and it's accessible. If using <span class="highlight">--net=host</span>, or the host interface, make sure to open the port(s) on the firewall, on both UDP, and TCP, in & out.</span>
+
+You can find a firewall tutorial for ufw <a href="https://gist.github.com/egg82/7a4703c275186be729a5c143fb00c9cb">here</a>, or a tutorial for iptables <a href="https://www.digitalocean.com/community/tutorials/how-to-set-up-a-firewall-using-iptables-on-ubuntu-14-04">here</a>.
+
+If using <a href="https://github.com/chaifeng/ufw-docker">Ufw Docker</a>, set up a route, by following the <span class="highlight">README.md</span> file.
+
+<h3>6. Tips & tricks.</h3>
+You might be wondering how to install maps, or plugins.
+
+There are multiple ways of installing a map. One of them is using a command to do install maps from the Community Workshop. Let's do that:
+
+1. First, we are going to attach to the server console:
+<span class="command">sudo docker attach tf2</span>
+
+Make sure to replace the tf2 block with the name of your container.
+
+2. Find a map that you wish to use, and copy the id like so:
+
+<img src="https://cdn.discordapp.com/attachments/801552326976208896/932693604978286592/image-1.png">
+
+Copy the id from the url.
+
+3. Execute the following command in the console:
+
+<span class="command">tf_workshop_map_sync mapid</span>
+
+Make sure to replace the mapid with the map id. This should automatically pull the map, add it to the tracking list.
+
+To exit the console, hold Ctrl + p + q. This is the docker container escape sequence.
+
+
+<span class="note">🗒️ Note: There are other ways to install maps outside Steam Workshop. One of them is getting inside the container file system using  docker exec, and then downloading the files to the correct directory using wget or curl.</span>
+
+If you decided to install sourcemod, you have the option to install plugins. But how do you get them inside the container? Well, that's something for another post, where we will discuss the management of a Tf2 server in Docker.
+
+Closing thoughts:
+Thank you for reading my article! If you found it helpful consider sharing with others! Huge thanks to Walentin for correction, and opinions. Thanks to Dorkix for finding the command to install a map from the Steam Workshop. If you found something that is worth mentioning, feel free to add me on Discord at Simon.#4921. Have a nice day/night! ❤️
+
+<span class="warning">⚠️ Warning: Edit on 2022.01.16: This post was originally published on Sep 12. 2021, and got migrated today.</span>
+</pre>
+		</div>
+              <div class="postsbottom">
+                     <p>Copyright (C) KoxSosen</p>
+                     <p>The content on this page is licensed under the <a href="https://www.gnu.org/licenses/agpl-3.0.en.html">GNU AGPL v3 license</a>.</p>
+                     <p>Find us on <a href="https://github.com/KoxSosen/Blog">GitHub</a>.</p>
+              </div>
+	</body>
+</html>

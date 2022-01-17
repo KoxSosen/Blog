@@ -77,6 +77,14 @@ pre {
     padding: 10px;
 }
 
+.note {
+    background-color: darkgreen;
+    border-radius: 15px;
+    display: table;
+    padding: 10px;
+
+}
+
 .command {
     background-color: black;
     border-radius: 5px;
