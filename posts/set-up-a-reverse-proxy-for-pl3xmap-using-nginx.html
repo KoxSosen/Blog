@@ -46,26 +46,17 @@ Let's get to work! You'll need:
 <li>Pl3xMap installed to your backend server.</li></ul>
 
 <h3>1. Enable the inbuilt Pl3xMap web server.</h3>
-Navigate to the <span class="highlight">config.yml</span> file, which can be found in <span class="highlight">/path/to/server/plugins/Pl3xMap/</span>. Set  the enabled: option to true under internal-webserver:.
+Navigate to the <span class="highlight">config.yml</span> file, which can be found in <span class="highlight">/path/to/server/plugins/Pl3xMap/</span>. Set the <span class="highlight">enabled:</span> option to true under internal-webserver:.
 
-<div class="warning">⚠️ Warning: Exposing the website backend directly to the internet, without ssl is a security risk. If you have the option to use a local address use that. ( like localhost, 127.0.0.1, or the containers private IP if using docker )</div>
+<span class="warning">⚠️ Warning: Exposing the website backend directly to the internet, without ssl is a security risk. If you have the option to use a local address use that. ( like localhost, 127.0.0.1, or the containers private IP if using docker )</span>
 
 <h3>2. Install Nginx.</h3>
-Let's install Nginx. Run the commands from the official Nginx site:
-
-<span class="command">sudo apt install curl gnupg2 ca-certificates lsb-release debian-archive-keyring && \
-curl https://nginx.org/keys/nginx_signing.key | gpg --dearmor \
-    | sudo tee /usr/share/keyrings/nginx-archive-keyring.gpg >/dev/null && \
-    gpg --dry-run --quiet --import --import-options import-show /usr/share/keyrings/nginx-archive-keyring.gpg</span>
-<span class="command">echo "deb [signed-by=/usr/share/keyrings/nginx-archive-keyring.gpg] \
-http://nginx.org/packages/debian `lsb_release -cs` nginx" \
-    | sudo tee /etc/apt/sources.list.d/nginx.list && \
-	sudo apt update && sudo apt install nginx</span>
+Let's install Nginx. Run the commands from the official Nginx site, which you can find <a href="https://nginx.org/en/linux_packages.html">here</a>.
 
 <h3>3. Configure Nginx. </h3>
 The Nginx configuration directory in Debian based systems in most cases is /etc/nginx/.
 
-Play close attention to the nginx.conf, and other configuration files. Adjust values to your liking. mikroskeem already has a great config repository which you can find here.
+Play close attention to the <span class="highlight"nginx.conf></span>, and other configuration files. Adjust values to your liking. mikroskeem already has a great config repository which you can find <a href="https://github.com/mikroskeem/nginx-config">here</a>.
 
 <h3>4. Open the web server ports.</h3>
 Make sure that port 80 ( for forwarding traffic to 443 ), and port 443 (for ssl) is open for in and out traffic.
@@ -81,15 +72,15 @@ Replace the <your preferred editor> block with whatever editor you use. nano is 
 
 You just created a virtual host! Great! Time to add the reverse proxy config. Feel free to copy & paste:
 
-<div class="codeblock">server {
+<span class="codeblock">server {
         listen 80; # Listen on port 80. 
         server_name map.your.domain; # REPLACE with your domain
 
         location / {
                 proxy_pass http://127.0.0.1; # REPLACE with the the ip you configured in pl3xmap.
         }
-}</div>
-Save and exit. If using `nano` press Ctrl+o, and Ctrl+x, if using vim type :x, or ZZ. If you want to get familiar with vim give vimtutor a go.
+}</span>
+Save and exit. If using nano press Ctrl+o, and Ctrl+x, if using vim type :x, or ZZ. If you want to get familiar with vim give vimtutor a go.
 
 <h3>6. Enable the site.</h3>
 Now we are going to set up a symlink to activate the site:
@@ -122,14 +113,15 @@ Obtain the certificate:
 
 Make sure to replace the your_domain block with your domain, and choose the option to redirect http traffic to https.
 
-<div class="warning">⚠️ Warning: If you are using Cloudflare, and you have the Cloudflare proxy enabled, please see this guide.</div>
+<span class="warning">⚠️ Warning: If you are using Cloudflare, and you have the Cloudflare proxy enabled, please see this guide.</span>
+
 <h3>9. Enjoy!</h3>
 Navigate to https://map.your.domain/, and enjoy your new map! 😄
 
 Closing thoughts:
-Thank you for reading my article! If you have any questions, or you found something about this article that is worth mentioning, feel free to add me on Discord at Simon.#4921. Have a nice day!
+Thank you for reading my article! If you have any questions, or you found something about this article that is worth mentioning, feel free to add me on Discord at <span class="highlight">Simon.#4921</span>. Have a nice day!
 
-<div class="warning">⚠️ Warning: Edit on 2022.01.16: This site was originally written on Sep 8. 2021. and got migrated today.</div>
+<span class="warning">⚠️ Warning: Edit on 2022.01.16: This post was originally published on Sep 8. 2021, and got migrated to the self written instance today. Reading thru it 4 months later, there is a bunch of stuff I'd do differently now, but err, leaving this here for the history.</span>
 
 </pre>
 		</div>

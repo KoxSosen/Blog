@@ -16,9 +16,9 @@ a {
 }
 
 .announcement {
-  padding: 5px;
+  padding: 3px;
   text-align: center;
-  background: red;
+  background: orangered;
 
 }
 
@@ -27,6 +27,8 @@ a {
   font-size: 20px;
   margin-bottom: 15px;
   text-align: center;
+  border-bottom-style: solid;
+  border-bottom-color: black;
 }
 
 .posts {
