@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+        
+		<!-- Describe the post, used for search engines. -->
+        <meta name="description" content="10 Useful Velocity plugins for your network.">
+
+        <!-- Add the keywords here for SEO -->
+        <meta name="keywords" content="velocity plugins, top velocity plugins, velocity, plugin, minecraft"> 
+        
+        <!-- Credit yourself -->
+        <meta name="author" content="KoxSosen">
+    <link rel="stylesheet" href="./css/pages.css">
+    <!-- Post title -->
+    <title>10 Useful Velocity plugins for your network.</title>
+</head>
+	<body>
+		<div class="linkback">
+			<p><a href="../index.html"><-- Back to the main page.</a> 🐱</p>
+		</div>
+		<!-- Post page header, an image as a background maybe? -->
+		<div class="postheader">
+  			<h1>10 Useful Velocity plugins for your network.</h1>
+  			<p>Hello there! 🍵</p>
+		</div>
+		<div class="tags">
+			<p>2021.09.25 | <a href="https://github.com/KoxSosen/">KoxSosen</a></p>
+		</div>
+		<!-- Content stuff. <pre></pre> must no have tabs or spaces before. --> 
+		<div class="content">
+<pre>
+Today, we are diving into the plugin ecosystem of Velocity, a lightweight Minecraft proxy.
+
+<span class="note">🗒️ Note: This article aims to list useful resources, which are also open source, and free. This article isn't a "top-list", or a "which one is better" comparison, it's just a simple useful Velocity plugins list. Please note, that his is only my personal opinion. You should form your own while reading thru this article. :p</span>
+
+With that out of the way, let's not waste any more time! 🙂
+<!-- Linking github instead of spigot seems better, but err, it's easier for the user to download a release from Spigot -->
+<img src="https://www.spigotmc.org/data/resource_icons/79/79123.jpg">
+<h3>1. AjQueue</h3>
+<a href="https://www.spigotmc.org/resources/ajqueue.78266/">AjQueue</a>, is an amazing Queue plugin for Velocity servers. Extensive configuration, frequently maintained, and a friendly author. What else can you ask for? 😉 AjQueue is capable of queue load-balancing, priority queue, proper queue permission management, multiple queues, version block, whitelist detection, basically, almost everything a queue plugin has to offer is bundled here. You can even override the default server command!
+
+<img src="https://www.spigotmc.org/data/resource_icons/81/81063.jpg">
+<h3>2. LibertyBans</h3>
+The be-all, end-all of discipline. That's right. When running a network, getting rid of bad behavior, and maintaining a "clear" community is important. This is where <a href="https://www.spigotmc.org/resources/libertybans.81063/">LibertyBans</a> comes in hand. LibertyBans can ban, mute, ipban, or even, find alts on your network! It supports multiple database types, and it even offers a rich API for developers. Not to mention the multi version, and multi platform support. Definitely my recommended to-go plugin for ban management.
+
+<img src="https://www.spigotmc.org/data/resource_icons/81/81326.jpg">
+<h3>3. CommandWhitelist</h3>
+Every left and right, there is a developer, who doesn't properly assign, or register permissions for commands, which makes dealing with tab-competition, and commands a serious issue. <a href="https://www.spigotmc.org/resources/commandwhitelist-spigot-waterfall-velocity.81326/">CommandWhitelist</a> aims to solve this, by whitelisting what commands players can execute and see, with a permission based group system. This is very useful, if you don't want to "show" every command from your Proxy to your players, even if they don't have permission to execute them. And the best thing is, you can install it to your backend servers too!
+
+<h3>4. Send</h3>
+Some say, /send is a missing command from Velocity. It originates from the BungeeCord send module, which gives the admin ability to send players between backend servers with a simple command. <a href="https://github.com/OskarsMC-Plugins/send">Send</a> brings this functionality to Velocity. Thanks to Cloud, and the inbuilt LuckPerms integration, tab competition, and permission management isn't an issue here. You can move groups, individuals, and all players at once. What a nice command to have, huh?
+
+<img src="https://www.spigotmc.org/data/resource_icons/71/71727.jpg">
+<h3>5. OneVersionRemake</h3>
+Velocity it well known for it's great multi version support. However, there can be scenarios, when you don't want to allow a range, or a specific version to enter your server. This is what <a href="https://www.spigotmc.org/resources/oneversionremake.71727/">OneVersionRemake</a> is for. You can block specific versions, or a range of them. Custom kick messages, MOTD's, or even hovers aren't an issue here. The configuration is pretty self explanatory, so you won't be lost. 
+
+<img src="https://www.spigotmc.org/data/resource_icons/28/28140.jpg">
+<h3>6. LuckPerms</h3>
+One, if not the best permission plugin out there. The best part is, it has full Velocity support! Using <a href="https://www.spigotmc.org/resources/luckperms.28140/">LuckPerms</a>, you can manage permissions on your proxy, you can set up server groups for different, or synced permissions for each backend server, and a lot more. Make sure to check out the wiki here! 
+
+<h3>7. GChat</h3>
+Have you ever thought about syncing backend server chats, so people can send messages from server A to server B, and vice versa? Well, this is possible with <a href="https://github.com/KoxSosen/gChat">GChat</a>. The inbuilt LuckPerms integration makes it easy to format the chat with prefixes and suffixes, which is ideal for a chat plugin. You can also set up an infinite amount of channels, a staff chat, and a lot more.
+
+<h3>8. VelocityAutoReconnect</h3>
+<a href="https://github.com/flori4nk/VelocityAutoReconnect">VelocityAutoReconnect</a> is useful, when you're using Velocity's inbuilt try= feature. The feature itself is great, but it might became an issue if you want to move the players back to the server they got kicked from.
+VelocityAutoReconnect tries to solve this issue, by automatically reconnecting players to the server they got kicked from, using a queue algorithm.
+
+<img src="https://www.spigotmc.org/data/resource_icons/79/79601.jpg">
+<h3>9. BungeeGuard</h3>
+<a href="https://www.spigotmc.org/resources/bungeeguard.79601/">BungeeGuard</a> is useful, if you want to secure your Minecraft network, but you can't set up a firewall, or you can't use a local address to bind the servers to.
+This could be because of several reasons, one of them is using a shared host. But, don't worry! If installed on Velocity, BungeeGuard adds a secret "authentication token" to the login handshake. Then the backend server checks for the login handshakes to ensure they contain an allowed authentication token. If using this plugin, make sure to properly set the forwarding method in your velocity.toml file, and install the plugin to all of your backend serburs connected to the proxy. 
+
+<h3>10. Catalyst</h3>
+<a href="https://github.com/AnvilPowered/Catalyst">Catalyst</a>, as per their motto; "The largest suite of essential tools for Velocity."
+Catalyst offers a wide variety of features to choose from. From per server Mod-Pack support, to Discord bot linking, custom MOTD, many things are bundled here. 
+People who prefer to install something for each function, may call this "bloated", but that doesn't mean you can't turn the plugins "modules" off in the config section. Overall, a great all-in-one solution.
+
+Closing thoughts: 
+
+I try to make this blog interesting, and I try to fill it with unique, advanced, and quality content. This post, in particular didn't require much research, and let's be honest it's not that advanced, so I probably won't make much of these. :p
+Images displayed on this page are not my property. They're the publicly available logo for each plugin, or it's developer's profile picture, or it's organizations logo.
+If you think you have a useful plugin, and you want it to be added, please add me on Discord at <span class="highlight">Simon.#4921</span>. Who knows? You might make it into the second part, if I ever make one. 😄
+Finally, thank you for reading my article! If you found it useful, please consider sharing it with others. Have a nice day/night! ❤️
+
+<span class="warning">⚠️ Warning: Edit on 2022.01.18: This post was originally published on Sep 25. 2021, and got migrated to the self written instance today. Reading thru it 4 months later, there is a bunch of stuff that is outdated, but err, leaving this here for the history.</span>
+</pre>
+		</div>
+              <div class="postsbottom">
+                     <p>Copyright (C) KoxSosen</p>
+                     <p>The content on this page is licensed under the <a href="https://www.gnu.org/licenses/agpl-3.0.en.html">GNU AGPL v3 license</a>.</p>
+                     <p>Find us on <a href="https://github.com/KoxSosen/Blog/>GitHub</a>.</p>
+              </div>
+	</body>
+</html>

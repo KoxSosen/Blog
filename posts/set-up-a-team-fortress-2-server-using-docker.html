@@ -32,12 +32,10 @@
 		<div class="content">
 <pre>
 This guide assumes:
-
 <ul>
 <li>You know the basics of Docker.</li>
 <li>You know what Team Fortress 2 is.</li>
 <li>You have a Linux machine capable of running containers.</li></ul>
-
 <h3>1. Install Docker.</h3>
 Let's install docker. Follow the article linked below. 😄
 
@@ -59,7 +57,7 @@ An example of this command goes as follows:
 <span class="command">sudo docker pull cm2network/tf2:sourcemod</span>
 
 <h3>3. Create a named volume.</h3>
-As we all know, containers without a bind mount only persist data in an overlay, using the overlay storage driver. However, the TF2 game server constantly updates data, so we should store our data using a bind mount, or a named volume. In this step, we'll create a named volume, to store our serbur files on. You can read more about docker volume management here. Run the following command:
+As we all know, containers without a bind mount only persist data in an overlay, using the overlay storage driver. However, the TF2 game server constantly updates data, so we should store our data using a bind mount, or a named volume. In this step, we'll create a named volume, to store our serbur files on. You can read more about docker volume management <a href= "https://docs.docker.com/storage/volumes/https://docs.docker.com/storage/volumes/">here</a>. Run the following command:
 
 <span class="command">sudo docker volume create volume_name</span>
 
@@ -96,7 +94,7 @@ Port 27015 is the default port used by Team Fortress 2 servers. Feel free to cha
 
 <span class="warning">⚠️ Warning: It is recommended to use the host interface if hosting a lot of Team Fortress 2 game servers because of it's more bandwidth efficient than containers using the docker bridge. You can do that by passing the --network=host option to the command, and removing the -p ... option(s).</span>
 
-🗒️ Note: If you are an advanced user, and you need STDIN, or a TTY session for automation, or something else, consider passing the -it option.
+<span class="note">🗒️ Note: If you are an advanced user, and you need STDIN, or a TTY session for automation, or something else, consider passing the -it option.</span>
 
 <h3>5. Connect to the server.</h3>
 Time to connect to your server! Launch the game, open console, and type:
@@ -116,19 +114,17 @@ You might be wondering how to install maps, or plugins.
 
 There are multiple ways of installing a map. One of them is using a command to do install maps from the Community Workshop. Let's do that:
 
-1. First, we are going to attach to the server console:
+<h4>1. First, we are going to attach to the server console:</h4>
 <span class="command">sudo docker attach tf2</span>
 
 Make sure to replace the tf2 block with the name of your container.
 
-2. Find a map that you wish to use, and copy the id like so:
-
+<h4>2. Find a map that you wish to use, and copy the id like so:</h4>
 <img src="https://cdn.discordapp.com/attachments/801552326976208896/932693604978286592/image-1.png">
 
 Copy the id from the url.
 
-3. Execute the following command in the console:
-
+<h4>3. Execute the following command in the console:</h4>
 <span class="command">tf_workshop_map_sync mapid</span>
 
 Make sure to replace the mapid with the map id. This should automatically pull the map, add it to the tracking list.
@@ -141,7 +137,7 @@ To exit the console, hold Ctrl + p + q. This is the docker container escape sequ
 If you decided to install sourcemod, you have the option to install plugins. But how do you get them inside the container? Well, that's something for another post, where we will discuss the management of a Tf2 server in Docker.
 
 Closing thoughts:
-Thank you for reading my article! If you found it helpful consider sharing with others! Huge thanks to Walentin for correction, and opinions. Thanks to Dorkix for finding the command to install a map from the Steam Workshop. If you found something that is worth mentioning, feel free to add me on Discord at Simon.#4921. Have a nice day/night! ❤️
+Thank you for reading my article! If you found it helpful consider sharing with others! Huge thanks to <a href="https://github.com/CM2Walki/">Walentin</a> for correction, and opinions. Thanks to <a href="https://steamcommunity.com/id/Dorkix/">Dorkix</a> for finding the command to install a map from the Steam Workshop. If you found something that is worth mentioning, feel free to add me on Discord at <span class="highlight">Simon.#4921</span>. Have a nice day/night! ❤️
 
 <span class="warning">⚠️ Warning: Edit on 2022.01.16: This post was originally published on Sep 12. 2021, and got migrated today.</span>
 </pre>
