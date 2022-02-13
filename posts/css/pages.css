@@ -18,7 +18,7 @@ a {
 /* These changes are nececarry to make <pre></pre> tags responsive, since all content is there. */
 pre {
   white-space: pre-wrap;
-  word-break: break-all;
+  /* word-break: break-all; */
 }
 
 .linkback {
